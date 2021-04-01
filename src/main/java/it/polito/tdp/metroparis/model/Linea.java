@@ -1,5 +1,6 @@
 package it.polito.tdp.metroparis.model;
 
+//javabean che definisce una linea 
 public class Linea {
 
 	private int idLinea;

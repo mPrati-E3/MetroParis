@@ -1,5 +1,6 @@
 package it.polito.tdp.metroparis.model;
 
+//javabean che definisce la connessione tra due fermate
 public class Connessione {
 
 	private int idConnessione;

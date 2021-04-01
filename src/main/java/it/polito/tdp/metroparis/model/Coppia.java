@@ -1,5 +1,6 @@
 package it.polito.tdp.metroparis.model;
 
+//javabean che definisce un arco
 public class Coppia {
 	
 	private Fermata Partenza;

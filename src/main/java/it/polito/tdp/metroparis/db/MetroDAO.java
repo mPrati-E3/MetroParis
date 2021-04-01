@@ -13,8 +13,10 @@ import it.polito.tdp.metroparis.model.Coppia;
 import it.polito.tdp.metroparis.model.Fermata;
 import it.polito.tdp.metroparis.model.Linea;
 
+//classe dedicata alle interrogazioni sul database
 public class MetroDAO {
 
+	//chiede al database i dati su tutte le fermate
 	public List<Fermata> getAllFermate() {
 
 		final String sql = "SELECT id_fermata, nome, coordx, coordy FROM fermata ORDER BY nome ASC";
@@ -45,6 +47,7 @@ public class MetroDAO {
 		return fermate;
 	}
 
+	//chiede al database i dati su tutte le linee
 	public List<Linea> getAllLinee() {
 		final String sql = "SELECT id_linea, nome, velocita, intervallo, colore FROM linea ORDER BY nome ASC";
 
@@ -76,6 +79,7 @@ public class MetroDAO {
 		return linee;
 	}
 	
+	//chiede al database i dati su tutti gli archi
 	public List<Coppia> getAllEdges(Map<Integer, Fermata> fermateIdMap) {
 		
 		final String sql = "SELECT id_stazP, id_stazA, linea.velocita+linea.intervallo AS peso\n"
@@ -117,6 +121,7 @@ public class MetroDAO {
 		
 	}
 
+	//data la fermata di inizio e fine, ritrovo in quale linea mi trovo
 	public int QualeLinea(Fermata edgeSource, Fermata edgeTarget) {
 		
 		final String sql = "SELECT id_linea\n"

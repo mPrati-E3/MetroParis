@@ -1,5 +1,6 @@
 package it.polito.tdp.metroparis;
 
+//javabean che definisce come sarà fatta la classe che andrò a stampare nelle righe della tabella
 public class StampType {
 	
 	private Double I;

@@ -58,6 +58,7 @@ public class MetroController {
     @FXML
     private Button btnStampa;
 
+    //se i valori dei drop sono ok, chiamo il model per effettuare l'operazione di stampa
     @FXML
     void doStampa(ActionEvent event) {
     	
@@ -81,6 +82,7 @@ public class MetroController {
 
     }
 
+    //stampo ciò che mi verrà ritornato dal model
     private void Stampante(List<StampType> L) {
     	
     	lblMessaggio.setText("");
@@ -118,6 +120,7 @@ public class MetroController {
 
     }
     
+	//preparo il model e setto i valori dei drop
     public void setModel (Model m) {
     	this.model=m;
     	

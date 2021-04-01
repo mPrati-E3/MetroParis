@@ -1,7 +1,6 @@
 package it.polito.tdp.metroparis.model;
 
-
-
+//javabean che definisce una fermata (nodo)
 public class Fermata {
 
 	private int idFermata;
