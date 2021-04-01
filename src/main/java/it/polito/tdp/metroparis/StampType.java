@@ -5,8 +5,8 @@ public class StampType {
 	private Double I;
 	private Double V;
 	private String L;
-	private Double X;
-	private Double Y;
+	private String X;
+	private String Y;
 	private String F;
 	private String C;
 	
@@ -28,16 +28,16 @@ public class StampType {
 	public void setL(String l) {
 		L = l;
 	}
-	public Double getX() {
+	public String getX() {
 		return X;
 	}
-	public void setX(Double x) {
+	public void setX(String x) {
 		X = x;
 	}
-	public Double getY() {
+	public String getY() {
 		return Y;
 	}
-	public void setY(Double y) {
+	public void setY(String y) {
 		Y = y;
 	}
 	public String getF() {
@@ -47,7 +47,7 @@ public class StampType {
 		F = f;
 	}
 	
-	public StampType(Double i, Double v, String l, Double x, Double y, String f, String c) {
+	public StampType(Double i, Double v, String l, String x, String y, String f, String c) {
 		super();
 		I = i;
 		V = v;

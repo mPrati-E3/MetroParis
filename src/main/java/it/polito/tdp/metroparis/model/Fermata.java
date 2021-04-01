@@ -1,17 +1,35 @@
 package it.polito.tdp.metroparis.model;
 
-import com.javadocmd.simplelatlng.LatLng;
+
 
 public class Fermata {
 
 	private int idFermata;
 	private String nome;
-	private LatLng coords;
+	private Double X;
+	private Double Y;
 
-	public Fermata(int idFermata, String nome, LatLng coords) {
+	public Double getX() {
+		return X;
+	}
+
+	public void setX(Double x) {
+		X = x;
+	}
+
+	public Double getY() {
+		return Y;
+	}
+
+	public void setY(Double y) {
+		Y = y;
+	}
+
+	public Fermata(int idFermata, String nome, Double x, Double y) {
 		this.idFermata = idFermata;
 		this.nome = nome;
-		this.coords = coords;
+		this.X = x;
+		this.Y = y;
 	}
 
 	public Fermata(int idFermata) {
@@ -33,14 +51,6 @@ public class Fermata {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public LatLng getCoords() {
-		return coords;
-	}
-
-	public void setCoords(LatLng coords) {
-		this.coords = coords;
 	}
 
 	@Override

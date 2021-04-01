@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.javadocmd.simplelatlng.LatLng;
 
 import it.polito.tdp.metroparis.model.Coppia;
 import it.polito.tdp.metroparis.model.Fermata;
@@ -27,8 +26,11 @@ public class MetroDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Fermata f = new Fermata(rs.getInt("id_Fermata"), rs.getString("nome"),
-						new LatLng(rs.getDouble("coordx"), rs.getDouble("coordy")));
+				Fermata f = new Fermata(
+						rs.getInt("id_Fermata"), 
+						rs.getString("nome"),
+						rs.getDouble("coordx"), 
+						rs.getDouble("coordy"));
 				fermate.add(f);
 			}
 
@@ -113,6 +115,43 @@ public class MetroDAO {
 		return C;
 
 		
+	}
+
+	public int QualeLinea(Fermata edgeSource, Fermata edgeTarget) {
+		
+		final String sql = "SELECT id_linea\n"
+				+ "FROM connessione\n"
+				+ "WHERE id_stazP=? AND id_stazA=?";
+		
+		int ritorno = 0;
+
+		try {
+			
+			Connection conn = DBConnect.getConnection();
+			
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			st.setInt(1, edgeSource.getIdFermata());
+			st.setInt(2, edgeTarget.getIdFermata());
+			
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				
+				ritorno = rs.getInt("id_linea");
+				
+			}
+
+			st.close();
+			conn.close();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore di connessione al Database.");
+		}
+		
+		return ritorno;
 	}
 	
 

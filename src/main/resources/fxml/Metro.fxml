@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.metroparis.MetroController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.metroparis.MetroController">
    <top>
       <Label text="Metro Paris" BorderPane.alignment="CENTER">
          <font>
@@ -63,8 +63,8 @@
                 <TableColumn fx:id="colIntervallo" editable="false" prefWidth="70.0" resizable="false" sortable="false" text="Intervallo" />
                 <TableColumn fx:id="colVelocita" editable="false" prefWidth="70.0" resizable="false" sortable="false" text="Velocità" />
                   <TableColumn fx:id="colLinea" prefWidth="70.0" text="Linea" />
-                  <TableColumn fx:id="colX" editable="false" resizable="false" sortable="false" text="X" />
-                  <TableColumn fx:id="colY" editable="false" resizable="false" sortable="false" text="Y" />
+                  <TableColumn fx:id="colX" editable="false" prefWidth="170.0" resizable="false" sortable="false" text="X" />
+                  <TableColumn fx:id="colY" editable="false" prefWidth="170.0" resizable="false" sortable="false" text="Y" />
                   <TableColumn fx:id="colFermata" editable="false" prefWidth="441.6" resizable="false" sortable="false" text="Fermata" />
               </columns>
             </TableView>

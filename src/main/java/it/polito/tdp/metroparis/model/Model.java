@@ -17,9 +17,13 @@ import it.polito.tdp.metroparis.db.MetroDAO;
 
 public class Model {
 	
+	private MetroDAO dao;
+	
 	private Graph<Fermata, DefaultWeightedEdge> graph;
 	private List<Fermata> fermate;
 	private Map<Integer, Fermata> fermateIdMap;
+	private List<Linea> linee;
+	private Map<Integer, Linea> lineeIdMap;
 	
 	public Graph<Fermata, DefaultWeightedEdge> getGraph() {
 		return graph;
@@ -49,12 +53,18 @@ public class Model {
 		
 		this.graph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
 		
-		MetroDAO dao = new MetroDAO();
+		dao = new MetroDAO();
 		
 		this.fermate = dao.getAllFermate();
 		fermateIdMap = new HashMap<Integer, Fermata>();
 		for (Fermata f : this.fermate) {
 			fermateIdMap.put(f.getIdFermata(),f);
+		}
+		
+		this.linee = dao.getAllLinee();
+		lineeIdMap = new HashMap<Integer, Linea>();
+		for (Linea l : this.linee) {
+			lineeIdMap.put(l.getIdLinea(),l);
 		}
 		
 		//creazione vertici
@@ -68,30 +78,59 @@ public class Model {
 		
 		
 		
-		System.out.println("Graph created: V="+this.graph.vertexSet().size()+" E="+this.graph.edgeSet().size());
-		
 	}
 
 	public List<StampType> getPercorso(Fermata p, Fermata a) {
 		
-		DijkstraShortestPath<Fermata, DefaultWeightedEdge> dijkstraShortestPath = new DijkstraShortestPath<Fermata, DefaultWeightedEdge>(graph);
-		ArrayList<Fermata> overallShortestPath = new ArrayList<Fermata>();
+		List <StampType> BOX = new ArrayList<StampType>();
 	
 		GraphPath<Fermata, DefaultWeightedEdge> gp = DijkstraShortestPath.findPathBetween(graph, p, a);
 		
-		System.out.println(gp);
+		//System.out.println(gp);
 		
-		//qui dentro ho nome fermata e le coordinate x,y
 		List<Fermata> FermataShortestPath = gp.getVertexList();
 		
-		/*
-		List<Double> PesoShortestPath = new ArrayList<Double>();
+		//qui dentro ho nome fermata e le coordinate x,y ---> le metto nella lista BOX
 		for (DefaultWeightedEdge dwe : gp.getEdgeList()) {
-			Double d = Double.parseDouble(dwe.toString());
-			PesoShortestPath.add(d);
+			
+			int IdLineaTrovata = dao.QualeLinea(graph.getEdgeSource(dwe),graph.getEdgeTarget(dwe));
+			
+			Linea LineaInCuiMiTrovo = lineeIdMap.get(IdLineaTrovata);
+			
+			
+			StampType s = new StampType(
+					graph.getEdgeWeight(dwe)-LineaInCuiMiTrovo.getVelocita(),
+					graph.getEdgeWeight(dwe)-LineaInCuiMiTrovo.getIntervallo(),
+					LineaInCuiMiTrovo.getNome(),
+					"",
+					"",
+					dwe.toString(),
+					LineaInCuiMiTrovo.getColore());
+			
+			BOX.add(s);
+			
 		}
-		*/
-		return null;
+	
+		
+		for (int i=0; i<FermataShortestPath.size()-1; i++) {
+			BOX.get(i).setX(
+					FermataShortestPath.get(i).getX().toString()+
+					" -> "+
+					FermataShortestPath.get(i+1).getX().toString());
+			
+		}
+		
+		for (int i=0; i<FermataShortestPath.size()-1; i++) {
+			BOX.get(i).setY(
+					FermataShortestPath.get(i).getY().toString()+
+					" -> "+
+					FermataShortestPath.get(i+1).getY().toString());
+			
+		}
+		//-----------------------------------------------------------------------------
+		
+
+		return BOX;
 	}
 	
 
