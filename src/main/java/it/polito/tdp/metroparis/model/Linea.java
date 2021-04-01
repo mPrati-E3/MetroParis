@@ -6,12 +6,14 @@ public class Linea {
 	private String nome;
 	private double velocita;
 	private double intervallo;
+	private String colore;
 
-	public Linea(int idLinea, String nome, double velocita, double intervallo) {
+	public Linea(int idLinea, String nome, double velocita, double intervallo, String colore) {
 		this.idLinea = idLinea;
 		this.nome = nome;
 		this.velocita = velocita;
 		this.intervallo = intervallo;
+		this.colore = colore;
 	}
 
 	public Linea(int idLinea) {
@@ -75,5 +77,13 @@ public class Linea {
 		if (idLinea != other.idLinea)
 			return false;
 		return true;
+	}
+
+	public String getColore() {
+		return colore;
+	}
+
+	public void setColore(String colore) {
+		this.colore = colore;
 	}
 }

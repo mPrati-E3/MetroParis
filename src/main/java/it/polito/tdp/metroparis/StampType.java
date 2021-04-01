@@ -8,6 +8,7 @@ public class StampType {
 	private Double X;
 	private Double Y;
 	private String F;
+	private String C;
 	
 	public Double getI() {
 		return I;
@@ -46,7 +47,7 @@ public class StampType {
 		F = f;
 	}
 	
-	public StampType(Double i, Double v, String l, Double x, Double y, String f) {
+	public StampType(Double i, Double v, String l, Double x, Double y, String f, String c) {
 		super();
 		I = i;
 		V = v;
@@ -54,6 +55,13 @@ public class StampType {
 		X = x;
 		Y = y;
 		F = f;
+		C = c;
+	}
+	public String getC() {
+		return C;
+	}
+	public void setC(String c) {
+		C = c;
 	}
 	
 	

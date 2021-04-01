@@ -4,7 +4,15 @@ public class Coppia {
 	
 	private Fermata Partenza;
 	private Fermata Arrivo;
+	private Double Peso;
 	
+
+	public Double getPeso() {
+		return Peso;
+	}
+	public void setPeso(Double peso) {
+		Peso = peso;
+	}
 	public Fermata getPartenza() {
 		return Partenza;
 	}
@@ -18,10 +26,11 @@ public class Coppia {
 		Arrivo = arrivo;
 	}
 	
-	public Coppia(Fermata partenza, Fermata arrivo) {
+	public Coppia(Fermata partenza, Fermata arrivo, Double peso) {
 		super();
 		Partenza = partenza;
 		Arrivo = arrivo;
+		Peso = peso;
 	}
 	
 	

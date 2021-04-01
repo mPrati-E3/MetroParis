@@ -1,27 +1,31 @@
 package it.polito.tdp.metroparis.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.Graphs;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.DirectedWeightedMultigraph;
 
+import it.polito.tdp.metroparis.StampType;
 import it.polito.tdp.metroparis.db.MetroDAO;
 
 public class Model {
 	
-	private Graph<Fermata, DefaultEdge> graph;
+	private Graph<Fermata, DefaultWeightedEdge> graph;
 	private List<Fermata> fermate;
 	private Map<Integer, Fermata> fermateIdMap;
 	
-	public Graph<Fermata, DefaultEdge> getGraph() {
+	public Graph<Fermata, DefaultWeightedEdge> getGraph() {
 		return graph;
 	}
 
-	public void setGraph(Graph<Fermata, DefaultEdge> graph) {
+	public void setGraph(DirectedWeightedMultigraph<Fermata, DefaultWeightedEdge> graph) {
 		this.graph = graph;
 	}
 
@@ -43,7 +47,7 @@ public class Model {
 
 	public Model() {
 		
-		this.graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+		this.graph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
 		
 		MetroDAO dao = new MetroDAO();
 		
@@ -59,7 +63,7 @@ public class Model {
 		//creazione archi
 		List<Coppia> CF = dao.getAllEdges(fermateIdMap);
 		for (Coppia c : CF) {
-			this.graph.addEdge(c.getPartenza(), c.getArrivo());
+			Graphs.addEdge(graph, c.getPartenza(), c.getArrivo(), c.getPeso()); 
 		}
 		
 		
@@ -67,9 +71,28 @@ public class Model {
 		System.out.println("Graph created: V="+this.graph.vertexSet().size()+" E="+this.graph.edgeSet().size());
 		
 	}
+
+	public List<StampType> getPercorso(Fermata p, Fermata a) {
+		
+		DijkstraShortestPath<Fermata, DefaultWeightedEdge> dijkstraShortestPath = new DijkstraShortestPath<Fermata, DefaultWeightedEdge>(graph);
+		ArrayList<Fermata> overallShortestPath = new ArrayList<Fermata>();
 	
-	/*public static void main(String[] args) {
-		Model M = new Model();
-	}*/
+		GraphPath<Fermata, DefaultWeightedEdge> gp = DijkstraShortestPath.findPathBetween(graph, p, a);
+		
+		System.out.println(gp);
+		
+		//qui dentro ho nome fermata e le coordinate x,y
+		List<Fermata> FermataShortestPath = gp.getVertexList();
+		
+		/*
+		List<Double> PesoShortestPath = new ArrayList<Double>();
+		for (DefaultWeightedEdge dwe : gp.getEdgeList()) {
+			Double d = Double.parseDouble(dwe.toString());
+			PesoShortestPath.add(d);
+		}
+		*/
+		return null;
+	}
+	
 
 }

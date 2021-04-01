@@ -44,7 +44,7 @@ public class MetroDAO {
 	}
 
 	public List<Linea> getAllLinee() {
-		final String sql = "SELECT id_linea, nome, velocita, intervallo FROM linea ORDER BY nome ASC";
+		final String sql = "SELECT id_linea, nome, velocita, intervallo, colore FROM linea ORDER BY nome ASC";
 
 		List<Linea> linee = new ArrayList<Linea>();
 
@@ -54,8 +54,12 @@ public class MetroDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Linea f = new Linea(rs.getInt("id_linea"), rs.getString("nome"), rs.getDouble("velocita"),
-						rs.getDouble("intervallo"));
+				Linea f = new Linea(
+						rs.getInt("id_linea"), 
+						rs.getString("nome"), 
+						rs.getDouble("velocita"),
+						rs.getDouble("intervallo"),
+						rs.getString("colore"));
 				linee.add(f);
 			}
 
@@ -72,7 +76,10 @@ public class MetroDAO {
 	
 	public List<Coppia> getAllEdges(Map<Integer, Fermata> fermateIdMap) {
 		
-		final String sql = "SELECT DISTINCT id_stazP, id_stazA FROM connessione";
+		final String sql = "SELECT id_stazP, id_stazA, linea.velocita+linea.intervallo AS peso\n"
+				+ "FROM connessione\n"
+				+ "LEFT JOIN linea\n"
+				+ "ON linea.id_linea=connessione.id_linea";
 
 		List<Coppia> C = new ArrayList<Coppia>();
 
@@ -85,11 +92,11 @@ public class MetroDAO {
 
 			while (rs.next()) {
 				
+				int p = rs.getInt("id_stazP");
+				int a = rs.getInt("id_stazA");
+				Double peso = rs.getDouble("peso");
 				
-				Coppia c = new Coppia(
-						fermateIdMap.get(rs.getInt("id_stazP")),
-						fermateIdMap.get(rs.getInt("id_stazA"))
-						);
+				Coppia c = new Coppia(fermateIdMap.get(p),fermateIdMap.get(a),peso);
 				
 				C.add(c);
 			}

@@ -1,6 +1,7 @@
 package it.polito.tdp.metroparis;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.metroparis.model.Fermata;
@@ -12,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MetroController {
 	
@@ -30,7 +32,7 @@ public class MetroController {
     private ChoiceBox<Fermata> dropArrivo;
 
     @FXML
-    private TableView<?> tblStampa;
+    private TableView<StampType> tblStampa;
 
     @FXML
     private TableColumn<StampType, Double> colIntervallo;
@@ -58,10 +60,49 @@ public class MetroController {
 
     @FXML
     void doStampa(ActionEvent event) {
+    	
+    	Fermata P = this.dropPartenza.getValue();
+    	Fermata A = this.dropArrivo.getValue();
+    	
+    	if (P!=null && A!=null) {
+    		
+    		List<StampType> S = this.model.getPercorso(P,A);
+    		
+    		if (S!=null) {
+    			this.Stampante(S);
+    		} else {
+    			lblMessaggio.setText("Nessun percorso trovato!");
+    		}
+    		
+    	} else {
+    		lblMessaggio.setText("Scegliere una partenza ed un arrivo!");
+    	}
+    	
 
     }
 
-    @FXML
+    private void Stampante(List<StampType> L) {
+    	
+    	lblMessaggio.setText("");
+    	
+    	for ( int i = 0; i<tblStampa.getItems().size(); i++) {
+    	    tblStampa.getItems().clear();
+    	}
+    	
+    	
+        colIntervallo.setCellValueFactory(new PropertyValueFactory<>("I"));
+        colVelocita.setCellValueFactory(new PropertyValueFactory<>("V"));
+        colLinea.setCellValueFactory(new PropertyValueFactory<>("L"));
+        colX.setCellValueFactory(new PropertyValueFactory<>("X"));
+        colY.setCellValueFactory(new PropertyValueFactory<>("Y"));
+        colFermata.setCellValueFactory(new PropertyValueFactory<>("F"));
+        
+        for (int i=0; i<L.size(); i++) {
+        	tblStampa.getItems().add(L.get(i));
+        }
+	}
+
+	@FXML
     void initialize() {
         assert dropPartenza != null : "fx:id=\"dropPartenza\" was not injected: check your FXML file 'Metro.fxml'.";
         assert dropArrivo != null : "fx:id=\"dropArrivo\" was not injected: check your FXML file 'Metro.fxml'.";
