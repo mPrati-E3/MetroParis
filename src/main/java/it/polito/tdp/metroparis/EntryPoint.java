@@ -1,6 +1,8 @@
 package it.polito.tdp.metroparis;
 
 import javafx.application.Application;
+
+import it.polito.tdp.metroparis.model.Model;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,12 +13,27 @@ public class EntryPoint extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Metro.fxml"));
-        
+    	
+    	//creo il modello 
+    	Model model = new Model();
+    	//definisco il controller
+    	MetroController controller;
+    	
+    	//definisco il loader e lo assegno con ciò che prendo dalla scene
+    	FXMLLoader loader= new FXMLLoader(getClass().getResource("/fxml/Metro.fxml"));
+    	
+    	//estraggo la radice direttamente del loader che ho fatto prima
+    	Parent root = loader.load();
+    	
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
+    	
+    	//dal loader estraggo il controller e lo assegno alla variabile dedicata
+    	controller=loader.getController();
+    	//chiamo il metodo del controller che mi setta il model
+    	controller.setModel(model);
+    
         
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("Metro Paris");
         stage.setScene(scene);
         stage.show();
     }

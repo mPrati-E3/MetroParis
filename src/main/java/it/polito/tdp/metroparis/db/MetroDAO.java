@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.javadocmd.simplelatlng.LatLng;
 
+import it.polito.tdp.metroparis.model.Coppia;
 import it.polito.tdp.metroparis.model.Fermata;
 import it.polito.tdp.metroparis.model.Linea;
 
@@ -67,6 +69,47 @@ public class MetroDAO {
 
 		return linee;
 	}
+	
+	public List<Coppia> getAllEdges(Map<Integer, Fermata> fermateIdMap) {
+		
+		final String sql = "SELECT DISTINCT id_stazP, id_stazA FROM connessione";
+
+		List<Coppia> C = new ArrayList<Coppia>();
+
+		try {
+			
+			Connection conn = DBConnect.getConnection();
+			
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				
+				
+				Coppia c = new Coppia(
+						fermateIdMap.get(rs.getInt("id_stazP")),
+						fermateIdMap.get(rs.getInt("id_stazA"))
+						);
+				
+				C.add(c);
+			}
+
+			st.close();
+			conn.close();
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore di connessione al Database.");
+		}
+		
+		return C;
+
+		
+	}
+	
+
+
 
 
 }
